@@ -1,0 +1,46 @@
+module bit_tb;
+
+reg clk, rst;
+reg [7:0] data_in;
+reg [6:0] count;
+wire [7:0] channel;
+wire [7:0] data_out;
+
+integer i;
+
+bit dut(
+.clk(clk),
+.rst(rst),
+.data_in(data_in),
+.channel(channel),
+.count(count),
+.data_out(data_out)
+);
+
+initial begin
+clk = 0;
+forever #5 clk = ~clk;
+end
+
+initial begin
+
+rst = 1;
+data_in = 0;
+count = 0;
+
+#10 rst = 0;
+
+count = 10;
+data_in = 8'b11001100;
+#10;
+count = 50;
+data_in = 8'b10110010;
+#10;
+count = 75;
+data_in = 8'b11001010;
+#10;
+#20 $finish;
+
+end
+
+endmodule
