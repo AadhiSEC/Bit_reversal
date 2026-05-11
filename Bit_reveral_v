@@ -1,0 +1,109 @@
+module transmitter(
+input clk,
+input rst,
+input [7:0] data_in,
+input [6:0] count,
+output reg [7:0] tx_data
+);
+
+always @(posedge clk or posedge rst) begin
+
+if(rst)
+tx_data <= 0;
+
+else begin
+
+if(count < 50)
+tx_data <= data_in;
+
+else begin
+
+tx_data[0] <= data_in[7];
+tx_data[1] <= data_in[6];
+tx_data[2] <= data_in[5];
+tx_data[3] <= data_in[4];
+tx_data[4] <= data_in[3];
+tx_data[5] <= data_in[2];
+tx_data[6] <= data_in[1];
+tx_data[7] <= data_in[0];
+
+end
+
+end
+
+end
+
+endmodule
+
+
+
+module receiver(
+input clk,
+input rst,
+input [7:0] rx_data,
+input [6:0] count,
+output reg [7:0] data_out
+);
+
+always @(posedge clk or posedge rst) begin
+
+if(rst)
+data_out <= 0;
+
+else begin
+
+if(count < 50)
+data_out <= rx_data;
+
+else begin
+
+data_out[0] <= rx_data[7];
+data_out[1] <= rx_data[6];
+data_out[2] <= rx_data[5];
+data_out[3] <= rx_data[4];
+data_out[4] <= rx_data[3];
+data_out[5] <= rx_data[2];
+data_out[6] <= rx_data[1];
+data_out[7] <= rx_data[0];
+
+end
+
+end
+
+end
+
+endmodule
+
+
+
+module bit(
+input clk,
+input rst,
+input [7:0] data_in,
+input [7:0] channel,
+input [6:0] count,
+output [7:0] data_out
+);
+
+
+
+transmitter TX(
+.clk(clk),
+.rst(rst),
+.data_in(data_in),
+.count(count),
+.tx_data(channel)
+);
+
+receiver RX(
+.clk(clk),
+.rst(rst),
+.rx_data(channel),
+.count(count),
+.data_out(data_out)
+);
+
+endmodule
+
+
+
