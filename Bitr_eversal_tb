@@ -1,5 +1,4 @@
 module bit_tb;
-
 reg clk, rst;
 reg [7:0] data_in;
 reg [6:0] count;
